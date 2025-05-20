@@ -13,6 +13,7 @@ const Home = ({navigation}) => {
         <View style={styles.container}>
             <View style={styles.mainContainer}>
                 <Text style={styles.textSty}>Welcome to CI/CD Demo App</Text>
+                <Text style={styles.textSty} onPress={() => {navigation.navigate("Dashboard")}}>Go to Dashboard</Text>
             </View>
         </View>
     );
