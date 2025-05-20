@@ -1,66 +1,44 @@
-name: Android CI/CD
+name: "Android CI/CD"
 
 on:
-  push:
-    branches: [ "main" ] # Trigger on pushes to the main branch
-  pull_request:
-    branches: [ "main" ] # Trigger on pull requests targeting the main branch
+  workflow_dispatch:
+    branches: [dev]
+    # can add push and pull_request here 
 
 jobs:
   build:
-    name: Build and Test Android
-    runs-on: windows-latest # Use a Windows environment for Android build
-
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: "11"
+          distribution: "adopt"
+          cache: "gradle"
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Setup Node  
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x # Or your preferred Node.js version
+          node-version: '16'
 
-      - name: Install dependencies
+      - name: Run Yarn Install
         run: |
-          npm install # Or yarn install
-
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          sdk-version: '33' # Specify the Android SDK version
-          ndk: '25.1.8937393' # Specify the NDK version (required for React Native)
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17' # Or the Java version your project uses
-
-      - name: Cache Gradle Wrapper
-        uses: actions/cache@v3
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('android/gradle/wrapper/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
-      - name: Make Gradle executable
-        run: chmod +x android/gradlew
-
-      - name: Build Android Release
+             cd ./packages/app-mobile/
+             npm i -g corepack
+             yarn install             
+      - name: Build application
         run: |
-          cd android
-          ./gradlew assembleRelease
-
-      # Optional: Run Unit Tests (if you have them)
-      # - name: Run Unit Tests
-      #   run: |
-      #     cd android
-      #     ./gradlew testReleaseUnitTest
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
+             cd ./packages/app-mobile/android
+             ./gradlew assembleDebug             
+      - name: Upload application
+        uses: actions/upload-artifact@v2
         with:
-          name: android-release-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+          name: app
+          path: ./packages/app-mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 3
