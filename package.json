@@ -8,11 +8,10 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    
+    "prepare": "husky install",
     "dev-android": "react-native run-android --mode=devDebug --appIdSuffix dev",
     "dev-android-release-variant": "react-native run-android --mode=devRelease --appIdSuffix dev",
     "dev-android-release": "cd android && gradlew clean && gradlew assembleDevRelease",
-
     "live-android": "react-native run-android --mode=liveDebug --appIdSuffix live",
     "live-android-release-variant": "react-native run-android --mode=liveRelease --appIdSuffix live",
     "live-android-release": "cd android && gradlew clean && gradlew assembleLiveRelease"
@@ -44,7 +43,8 @@
     "jest": "^29.6.3",
     "prettier": "2.8.8",
     "react-test-renderer": "19.0.0",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "husky": "^8.0.0"
   },
   "engines": {
     "node": ">=18"
