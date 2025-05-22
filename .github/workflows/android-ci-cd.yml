@@ -32,10 +32,8 @@ jobs:
           node-version: '22.9.0'
 
       - name: Run Yarn Install
-        run: |
-             cd ./packages/app-mobile/
-             npm i -g corepack
-             yarn install             
+        run: npm install
+                     
       - name: Build application
         run: |
              cd ./packages/app-mobile/android
