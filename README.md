@@ -95,3 +95,20 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+
+# Environment specific configurations
+
+create .env file for different flavor(ex. .env.dev, .env.staging etc)
+
+To build for a specific environment on android, use Gradle build flavors,
+    - for dev, npx react-native run-android --variant=developmentDebug
+    - for staging, npx react-native run-android --variant=stagingDebug
+    - for production(for release builds), cd android && ./gradlew assembleProductionRelease
+
+# CICD usage
+
+create github action folder and workflow at root level
+    - .github/workflows/
+
+add the yml(ex. android_ci_cd.yml) file into workflow folder and add the required configuration as per our requirement into yml file
