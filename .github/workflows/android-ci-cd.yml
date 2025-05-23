@@ -40,11 +40,11 @@ jobs:
       - name: Build application
         run: |
              cd android
-             ./gradlew assembleDebug             
+             ./gradlew assembleStagingdebug
 
       - name: Upload application
         uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/staging/debug/app-staging-debug.apk
           retention-days: 3

@@ -12,7 +12,6 @@ const Dashboard = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-          {console.log("Config val.: ", Config)}
             <View style={styles.mainContainer}>
                 <Text style={styles.textSty}>{`Welcome to ${Config.FLAVOR === "dev" ? "Dev" : Config.FLAVOR === "live" ? "Production" : "Staging"} Dashboard`}</Text>
             </View>

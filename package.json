@@ -12,6 +12,9 @@
     "dev-android": "react-native run-android --mode=devDebug --appIdSuffix dev",
     "dev-android-release-variant": "react-native run-android --mode=devRelease --appIdSuffix dev",
     "dev-android-release": "cd android && gradlew clean && gradlew assembleDevRelease",
+    "staging-android": "react-native run-android --mode=stagingDebug --appIdSuffix staging",
+    "staging-android-release-variant": "react-native run-android --mode=stagingRelease --appIdSuffix staging",
+    "staging-android-release": "cd android && gradlew clean && gradlew assembleStagingRelease",
     "live-android": "react-native run-android --mode=liveDebug --appIdSuffix live",
     "live-android-release-variant": "react-native run-android --mode=liveRelease --appIdSuffix live",
     "live-android-release": "cd android && gradlew clean && gradlew assembleLiveRelease"

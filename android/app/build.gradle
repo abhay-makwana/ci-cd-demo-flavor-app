@@ -3,10 +3,12 @@ apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
 project.ext.envConfigFiles = [
-    debug: ".env.dev",
-    release: ".env.dev",
+    debug: ".env",
+    release: ".env",
     devdebug: ".env.dev",
     devrelease: ".env.dev",
+    stagingdebug: ".env.dev",
+    stagingrelease: ".env.dev",
     livedebug: ".env.live",
     liverelease: ".env.live",
 ]   // for CI/Cd
@@ -100,14 +102,14 @@ android {
             versionCode 1
             versionName "1.0"
         }
-        // staging {
-        //     minSdkVersion rootProject.ext.minSdkVersion
-        //     applicationId "com.cicddemo.live"
-        //     targetSdkVersion rootProject.ext.targetSdkVersion
-        //     resValue "string", "build_config_package", "com.cicddemo"
-        //     versionCode 1
-        //     versionName "1.0"
-        // }
+        staging {
+            minSdkVersion rootProject.ext.minSdkVersion
+            applicationId "com.cicddemo.staging"
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            resValue "string", "build_config_package", "com.cicddemo"
+            versionCode 1
+            versionName "1.0"
+        }
         dev {
             minSdkVersion rootProject.ext.minSdkVersion
             applicationId "com.cicddemo.dev"
