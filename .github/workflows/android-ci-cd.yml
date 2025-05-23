@@ -5,9 +5,9 @@ on:
     branches: [dev-flight]
     # can add push and pull_request here
   push:
-    branches: [ "dev-flight" ] # Trigger on pushes to the dev-flight branch
+    branches: ["dev-flight"] # Trigger on pushes to the dev-flight branch
   pull_request:
-    branches: [ "dev-flight" ] # Trigger on pull requests targeting the dev-flight branch
+    branches: ["dev-flight"] # Trigger on pull requests targeting the dev-flight branch
 
 jobs:
   build:
