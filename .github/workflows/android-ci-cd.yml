@@ -2,12 +2,18 @@ name: "Android CI/CD"
 
 on:
   workflow_dispatch:
-    branches: [main, dev-flight]
+    branches:
+      - main
+      - dev-flight
     # can add push and pull_request here
   push:
-    branches: [ "main", "dev-flight" ] # Trigger on pushes to the main branch
+    branches:
+      - main  # Trigger on pushes to the main branch
+      - dev-flight # Trigger on pushes to the dev-flight branch
   pull_request:
-    branches: [ "main", "dev-flight" ] # Trigger on pull requests targeting the main branch
+    branches:
+      - main # Trigger on pull requests targeting the main branch
+      - dev-flight # Trigger on pull requests targeting the dev-flight branch
 
 jobs:
   build:
