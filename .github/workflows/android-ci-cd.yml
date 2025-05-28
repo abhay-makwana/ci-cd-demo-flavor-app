@@ -53,15 +53,33 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+
+      - name: Determine Build Type and Flavor
+        id: determine_build
+        run: |
+          BUILD_COMMAND=""
+          if [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+            echo "Building debug APK for dev branch"
+            BUILD_COMMAND="./gradlew assembleStagingdebug" # Assuming 'dev' flavor and 'debug' build type
+          elif [[ "${{ github.ref }}" == "refs/heads/staging-flight" ]]; then
+            echo "Building release APK for staging-flight branch"
+            BUILD_COMMAND="./gradlew assembleStagingdebug" # Assuming 'production' flavor and 'release' build type
+            # Set up signing keys for release builds here (e.g., from secrets)
+          else
+            echo "Unsupported branch for APK generation."
+            exit 1
+          fi
+          echo "build_command=$BUILD_COMMAND" >> $GITHUB_OUTPUT
                      
       - name: Build application
         run: |
              cd android
-             ./gradlew assembleStagingdebug
+             ${{ steps.determine_build.outputs.build_command }}
 
       - name: Upload application
+        if: contains(github.ref, 'staging-flight')
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug.apk
+          name: app-staging-debug.apk
           path: android/app/build/outputs/apk/staging/debug/app-staging-debug.apk
           retention-days: 3
