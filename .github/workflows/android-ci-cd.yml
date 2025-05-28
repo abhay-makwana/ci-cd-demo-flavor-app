@@ -45,44 +45,13 @@ jobs:
 
       - name: Grant execute permission to gradlew
         run: chmod +x android/gradlew
-
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Determine Build Type and Flavor
-        id: determine_build
-        run: |
-          BUILD_COMMAND=""
-          if [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            echo "Building debug APK for dev branch"
-            BUILD_COMMAND="./gradlew assembleDevDebug" # Assuming 'dev' flavor and 'debug' build type
-          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "Building release APK for main branch"
-            BUILD_COMMAND="./gradlew assembleLiverelease" # Assuming 'production' flavor and 'release' build type
-            # Set up signing keys for release builds here (e.g., from secrets)
-          elif [[ "${{ github.ref }}" == refs/heads/release/* ]]; then
-            echo "Building release APK for release branch"
-            BUILD_COMMAND="./gradlew assembleProductionRelease" # Adjust as needed
-            # Set up signing keys for release builds here
-          else
-            echo "Unsupported branch for APK generation."
-            exit 1
-          fi
-          echo "build_command=$BUILD_COMMAND" >> $GITHUB_OUTPUT
                      
       - name: Build application
         run: |
              cd android
-             ${{ steps.determine_build.outputs.build_command }}
-            #  ./gradlew assembleLiverelease             
+             ./gradlew assembleLiveRelease
 
-      - name: Upload application(for dev/main branches)
-        if: contains(github.ref, 'main') || contains(github.ref, 'release/')
+      - name: Upload application
         uses: actions/upload-artifact@v4
         with:
           name: app-debug.apk
