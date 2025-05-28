@@ -58,12 +58,15 @@ jobs:
         id: determine_build
         run: |
           BUILD_COMMAND=""
-          if [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            echo "Building debug APK for dev branch"
-            BUILD_COMMAND="./gradlew assembleStagingdebug" # Assuming 'dev' flavor and 'debug' build type
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "Building debug APK for main branch"
+            BUILD_COMMAND="./gradlew assembleLiveRelease" # Assuming 'main' flavor and 'release' build type
           elif [[ "${{ github.ref }}" == "refs/heads/staging-flight" ]]; then
             echo "Building release APK for staging-flight branch"
-            BUILD_COMMAND="./gradlew assembleStagingdebug" # Assuming 'production' flavor and 'release' build type
+            BUILD_COMMAND="./gradlew assembleStagingRelease" # Assuming 'staging' flavor and 'release' build type
+          elif [[ "${{ github.ref }}" == "refs/heads/dev-flight" ]]; then
+            echo "Building release APK for dev-flight branch"
+            BUILD_COMMAND="./gradlew assembleDevRelease" # Assuming 'staging' flavor and 'release' build type
             # Set up signing keys for release builds here (e.g., from secrets)
           else
             echo "Unsupported branch for APK generation."
@@ -76,8 +79,24 @@ jobs:
              cd android
              ${{ steps.determine_build.outputs.build_command }}
 
-      - name: Upload application
+      - name: Upload application(for main branches)
+        if: contains(github.ref, 'main') || contains(github.ref, 'release/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug.apk
+          path: android/app/build/outputs/apk/live/release/app-live-release.apk
+          retention-days: 3
+          
+      - name: Upload application(for staging branches)
         if: contains(github.ref, 'staging-flight')
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-staging-debug.apk
+          path: android/app/build/outputs/apk/staging/release/app-staging-release.apk
+          retention-days: 3
+
+      - name: Upload application(for dev branches)
+        if: contains(github.ref, 'dev-flight')
         uses: actions/upload-artifact@v4
         with:
           name: app-staging-debug.apk
