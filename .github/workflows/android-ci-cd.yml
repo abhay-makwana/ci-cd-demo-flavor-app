@@ -83,7 +83,7 @@ jobs:
         if: contains(github.ref, 'main') || contains(github.ref, 'release/')
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug.apk
+          name: app-live-release.apk
           path: android/app/build/outputs/apk/live/release/app-live-release.apk
           retention-days: 3
           
@@ -91,7 +91,7 @@ jobs:
         if: contains(github.ref, 'staging-flight')
         uses: actions/upload-artifact@v4
         with:
-          name: app-staging-debug.apk
+          name: app-staging-release.apk
           path: android/app/build/outputs/apk/staging/release/app-staging-release.apk
           retention-days: 3
 
@@ -99,6 +99,6 @@ jobs:
         if: contains(github.ref, 'dev-flight')
         uses: actions/upload-artifact@v4
         with:
-          name: app-staging-debug.apk
-          path: android/app/build/outputs/apk/staging/debug/app-staging-debug.apk
+          name: app-dev-release.apk
+          path: android/app/build/outputs/apk/dev/release/app-dev-release.apk
           retention-days: 3
