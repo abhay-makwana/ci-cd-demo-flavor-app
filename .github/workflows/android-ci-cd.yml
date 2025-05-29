@@ -54,6 +54,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: "keystore.jks"
+          encodedString: ${{ secrets.ANDROID_KEYSTORE }}
+          
+      - name: Copy Keystore to Android app directory
+        run: mv ${{ steps.decode_keystore.outputs.filePath }} android/app/keystore.jks
+        
       - name: Determine Build Type and Flavor
         id: determine_build
         run: |
