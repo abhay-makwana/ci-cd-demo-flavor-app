@@ -95,15 +95,15 @@ def getGitCommitCount() {
             standardOutput = stdout
             workingDir project.rootDir // Ensure Git command runs from repo root
         }
-        // def count = stdout.toString().trim()
-        // if (count.isInteger()) {
-        //     return count.toInteger()
-        // } else {
-        //     // Fallback for cases where git might not be available or command fails
-        //     println "Warning: Could not get git commit count. Falling back to default versionCode."
-        //     return 1 // Default or a safe starting number
-        // }
-        return Integer.parseInt(stdout.toString().trim())
+        def count = stdout.toString().trim()
+        if (count.isInteger()) {
+            return count.toInteger()
+        } else {
+            // Fallback for cases where git might not be available or command fails
+            println "Warning: Could not get git commit count. Falling back to default versionCode."
+            return 1 // Default or a safe starting number
+        }
+        // return Integer.parseInt(stdout.toString().trim())
     } catch (Throwable e) {
         // Handle cases where git is not installed or the command fails (e.g., local dev)
         println "Warning: Git command failed: ${e.message}. Falling back to default versionCode."
