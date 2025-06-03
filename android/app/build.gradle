@@ -133,8 +133,10 @@ android {
             applicationId "com.cicddemo.staging"
             targetSdkVersion rootProject.ext.targetSdkVersion
             resValue "string", "build_config_package", "com.cicddemo"
-            versionCode 1
-            versionName "1.0"
+            
+            // Use the function to get the commit count for versionCode
+            versionCode getGitCommitCount()
+            versionName "1.0.${getGitCommitCount()}"
         }
         dev {
             minSdkVersion rootProject.ext.minSdkVersion
