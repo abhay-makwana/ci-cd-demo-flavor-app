@@ -105,14 +105,14 @@ jobs:
           # Ensure your build.gradle is set up to use these.
           # Alternatively, you can directly pass them as -P flags as shown above.
 
-          # MYAPP_RELEASE_STORE_FILE: keystore.jks
-          # MYAPP_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
-          # MYAPP_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_ALIAS }}
-          # MYAPP_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          MYAPP_RELEASE_STORE_FILE: -Pandroid.injected.signing.store.file=$(pwd)/app/keystore.jks \
-          MYAPP_RELEASE_STORE_PASSWORD: -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEY_STORE_PASSWORD }} \
-          MYAPP_RELEASE_KEY_ALIAS: -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_ALIAS }} \
-          MYAPP_RELEASE_KEY_PASSWORD: -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
+          MYAPP_RELEASE_STORE_FILE: $(pwd)/app/keystore.jks \
+          MYAPP_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_KEY_STORE_PASSWORD }}
+          MYAPP_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_ALIAS }}
+          MYAPP_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          # MYAPP_RELEASE_STORE_FILE: -Pandroid.injected.signing.store.file=$(pwd)/app/keystore.jks \
+          # MYAPP_RELEASE_STORE_PASSWORD: -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEY_STORE_PASSWORD }} \
+          # MYAPP_RELEASE_KEY_ALIAS: -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_ALIAS }} \
+          # MYAPP_RELEASE_KEY_PASSWORD: -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload application(for main branches)
         if: contains(github.ref, 'main') || contains(github.ref, 'release/')
